@@ -10,7 +10,6 @@ nltk.download('punkt')
 nltk.download('stopwords')
 from nltk import word_tokenize
 from nltk.stem import SnowballStemmer
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 def max_length_text(df):
@@ -54,9 +53,9 @@ def apply_stemming(data, language):
          data.at[i, 'text'] = (' '.join([stemmer.stem(word) for word in data.at[i, 'text'].split()]))
 
 
-# #### get_matrix representation | BoW and Tf-idf for Classic ML
+##### get_matrix representation | BoW and Tf-idf for Classic ML
 
-def get_matrix(data, representation, vocabulary_length, stemming, remove_stopwords, language):
+def get_matrix(data, vocabulary_length, stemming, remove_stopwords, language):
 
     df = data.copy(deep = True)
     
@@ -71,14 +70,7 @@ def get_matrix(data, representation, vocabulary_length, stemming, remove_stopwor
         apply_stemming(df, language)
     
     # Word representation
-    if representation == 'BoW':
-        count_vectorizer = CountVectorizer(max_df = 0.9, max_features = vocabulary_length, min_df = 0)
-        #count_vectorizer = CountVectorizer(max_features = vocabulary_length)
-        matrix = count_vectorizer.fit_transform(df.text)
-        
-    elif representation == 'tf-idf':
-        tfidf_vectorizer = TfidfVectorizer(max_df = 0.9, max_features = vocabulary_length, min_df = 0, use_idf = True)
-        #tfidf_vectorizer = TfidfVectorizer(max_features = vocabulary_length, use_idf=True)
-        matrix = tfidf_vectorizer.fit_transform(df.text)
+    tfidf_vectorizer = TfidfVectorizer(max_df = 0.9, max_features = vocabulary_length, min_df = 0, use_idf = True)
+    matrix = tfidf_vectorizer.fit_transform(df.text)
     
     return matrix, df
