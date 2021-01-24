@@ -53,7 +53,7 @@ def apply_stemming(data, language):
          data.at[i, 'text'] = (' '.join([stemmer.stem(word) for word in data.at[i, 'text'].split()]))
 
 
-##### get_matrix representation | BoW and Tf-idf for Classic ML
+##### get_matrix representation | Tf-idf for Classic ML
 
 def get_matrix(data, vocabulary_length, stemming, remove_stopwords, language):
 
